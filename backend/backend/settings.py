@@ -143,15 +143,20 @@ REST_FRAMEWORK = {
 }
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = [
-    os.getenv("CORS_ORIGIN", "http://localhost:5175"),  # Frontend development server
-    "http://127.0.0.1:5175",
-]
+# Read comma-separated list from CORS_ORIGINS, fallback to localhost dev
+_cors_env = os.getenv("CORS_ORIGINS") or os.getenv("CORS_ORIGIN") or "http://localhost:5175,http://127.0.0.1:5175"
+CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_env.split(",") if o.strip()]
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Allow all origins during development (you may want to restrict this in production)
-CORS_ALLOW_ALL_ORIGINS = True
+# CSRF Trusted Origins (include same as CORS, normalized to scheme+host)
+CSRF_TRUSTED_ORIGINS = []
+for origin in CORS_ALLOWED_ORIGINS:
+    try:
+        if origin.startswith("http://") or origin.startswith("https://"):
+            CSRF_TRUSTED_ORIGINS.append(origin)
+    except Exception:
+        pass
 
 # JWT Configuration
 JWT_SECRET = os.getenv('JWT_SECRET', 'dev-secret')
