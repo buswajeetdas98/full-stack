@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "functions": {
+    "backend/server.py": {
+      "runtime": "python3.11",
+      "memory": 512,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "backend/server.py" }
+  ]
+}
