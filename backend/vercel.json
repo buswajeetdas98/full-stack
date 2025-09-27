@@ -1,15 +1,10 @@
 {
-    "builds": [
-      {
-        "src": "./server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/server.js"
-      }
-    ]
-  }
-  
+  "functions": {
+    "server.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "/server.py" }
+  ]
+}

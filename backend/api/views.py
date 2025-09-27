@@ -150,6 +150,11 @@ def me(request: Request):
     return JsonResponse({"ok": True, "user": user})
 
 
+@api_view(["GET"])  # simple root route to avoid 404 on base URL
+def health(request: Request):
+    return JsonResponse({"ok": True, "service": "django-backend", "status": "healthy"})
+
+
 @csrf_exempt
 @api_view(["POST"])
 def email_invoice(request: Request):
